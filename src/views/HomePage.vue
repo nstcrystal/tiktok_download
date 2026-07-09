@@ -4,14 +4,14 @@ import { triggerDownload } from '@/services/tiktokApi'
 
 const store = useTikTokStore()
 
-function handleDownload(url: string, label: string) {
+async function handleDownload(url: string, label: string) {
   const filename = `tiktok_${Date.now()}_${label}.mp4`
-  triggerDownload(url, filename)
+  await triggerDownload(url, filename)
 }
 
-function handleDownloadAudio(url: string) {
+async function handleDownloadAudio(url: string) {
   const filename = `tiktok_${Date.now()}_audio.mp3`
-  triggerDownload(url, filename)
+  await triggerDownload(url, filename)
 }
 </script>
 
@@ -60,18 +60,15 @@ function handleDownloadAudio(url: string) {
             </div>
           </div>
           <div class="download-actions">
-            <a :href="store.video.videoUrl" class="btn btn-download" target="_blank" rel="noopener noreferrer"
-              @click.prevent="handleDownload(store.video.videoUrl, 'no_watermark')">
+            <button class="btn btn-download" @click="handleDownload(store.video.videoUrl, 'no_watermark')">
               Download No Watermark
-            </a>
-            <a :href="store.video.videoUrlHd" class="btn btn-download btn-hd" target="_blank" rel="noopener noreferrer"
-              @click.prevent="handleDownload(store.video.videoUrlHd, 'hd')">
+            </button>
+            <button class="btn btn-download btn-hd" @click="handleDownload(store.video.videoUrlHd, 'hd')">
               Download HD
-            </a>
-            <a :href="store.video.musicUrl" class="btn btn-download btn-music" target="_blank" rel="noopener noreferrer"
-              @click.prevent="handleDownloadAudio(store.video.musicUrl)">
+            </button>
+            <button class="btn btn-download btn-music" @click="handleDownloadAudio(store.video.musicUrl)">
               Download Audio
-            </a>
+            </button>
           </div>
         </div>
       </div>

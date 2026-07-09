@@ -62,15 +62,32 @@ function parseTikTokUrl(input: string): string | null {
   return null
 }
 
-function triggerDownload(url: string, filename: string) {
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = filename
-  anchor.target = '_blank'
-  anchor.rel = 'noopener noreferrer'
-  document.body.appendChild(anchor)
-  anchor.click()
-  document.body.removeChild(anchor)
+async function triggerDownload(url: string, filename: string) {
+  try {
+    const response = await fetch(url, {
+      mode: 'cors',
+      signal: AbortSignal.timeout(30000),
+    })
+    if (!response.ok) throw new Error('Download failed')
+
+    const blob = await response.blob()
+    const objectUrl = URL.createObjectURL(blob)
+
+    const anchor = document.createElement('a')
+    anchor.href = objectUrl
+    anchor.download = filename
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
+    URL.revokeObjectURL(objectUrl)
+  } catch {
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = filename
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
+  }
 }
 
 export { fetchTikTokData, parseTikTokUrl, triggerDownload }
