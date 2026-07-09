@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-.opencode
+.opencode/
 
 node_modules
 .DS_Store
@@ -17,7 +17,7 @@ coverage
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
 .idea
 *.suo
