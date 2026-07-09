@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
-  base: '/ten-repository-cua-ban/',
+  base: '/tiktok_download/',
   plugins: [
     vue(),
     vueDevTools(),
