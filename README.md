@@ -61,3 +61,7 @@ Xem trước bản dựng sản xuất
 ```sh
 npm run preview
 ```
+
+
+<!-- https://www.tiktok.com/@reverse1999cos/photo/7663380272758394143?is_from_webapp=1&sender_device=pc&web_id=7666106905379374610 -->
+<!-- signal is aborted without reason, Failed to fetch video data -->
