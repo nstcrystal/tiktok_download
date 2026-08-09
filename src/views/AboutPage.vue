@@ -3,50 +3,76 @@
 
 <template>
   <main class="about">
-    <h1>About TikTok Downloader</h1>
-    <p class="lead">
-      TikTok Downloader is a free web tool that lets you save TikTok content without
-      watermarks. Paste a share link and download it in high quality with just one click.
-    </p>
+    <section class="about-hero">
+      <h1 class="about-title">About TikTok Downloader</h1>
+      <p class="about-description">
+        A free web tool to save TikTok content without watermarks — videos in HD,
+        extracted audio, and full photo albums, all directly in your browser.
+      </p>
+    </section>
 
-    <section class="feature-list">
-      <h2>Features</h2>
-      <ul>
-        <li>
-          <strong>Video downloads</strong> — Save TikTok videos in both standard and HD quality
-          without watermark.
-        </li>
-        <li>
-          <strong>Audio extraction</strong> — Download the soundtrack of any video as an MP3 file.
-        </li>
-        <li>
-          <strong>Photo carousels</strong> — Download individual photos or the entire album from a
-          TikTok photo post.
-        </li>
-        <li>
-          <strong>Instant preview</strong> — See the post's author, caption, and engagement stats
-          before downloading.
-        </li>
+    <section class="about-section">
+      <h2 class="section-label">Features</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3 class="card-title">Video downloads</h3>
+          <p class="card-text">
+            Save TikTok videos in both standard and HD quality without watermark.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card-title">Audio extraction</h3>
+          <p class="card-text">
+            Download the soundtrack of any video as a ready-to-use MP3 file.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card-title">Photo carousels</h3>
+          <p class="card-text">
+            Download individual photos or the entire album from a photo post.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card-title">Instant preview</h3>
+          <p class="card-text">
+            See the post's author, caption, and engagement stats before downloading.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2 class="section-label">Supported Links</h2>
+      <ul class="link-list">
+        <li><code>tiktok.com/@user/video/…</code> — video posts</li>
+        <li><code>tiktok.com/@user/photo/…</code> — photo posts</li>
+        <li><code>vm.tiktok.com/…</code> and <code>vt.tiktok.com/…</code> — short share links</li>
+        <li><code>m.tiktok.com/v/…</code> — mobile links</li>
       </ul>
     </section>
 
-    <section class="feature-list">
-      <h2>Supported Links</h2>
-      <ul>
-        <li>Video posts — <code>tiktok.com/@user/video/…</code></li>
-        <li>Photo posts — <code>tiktok.com/@user/photo/…</code></li>
-        <li>Short share links — <code>vm.tiktok.com/…</code> and <code>vt.tiktok.com/…</code></li>
-        <li>Mobile links — <code>m.tiktok.com/v/…</code></li>
-      </ul>
+    <section class="about-section">
+      <h2 class="section-label">Tech Stack</h2>
+      <div class="stack-tags">
+        <span class="tag">Vue 3</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Pinia</span>
+        <span class="tag">Vite</span>
+        <span class="tag"><a href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a></span>
+      </div>
     </section>
 
-    <section class="feature-list">
-      <h2>Tech Stack</h2>
-      <ul>
-        <li>Vue 3 with TypeScript and Pinia for state management</li>
-        <li>Vite for fast development and optimized production builds</li>
-        <li>Powered by the <a href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a></li>
-      </ul>
+    <section class="about-section">
+      <h2 class="section-label">How It Works</h2>
+      <div class="card card-wide">
+        <p class="card-text">
+          Paste a TikTok share link into the input on the home page. The app sends it to the
+          <a class="card-link" href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a>,
+          which resolves the post and returns the media URLs together with the author, caption, and
+          stats. You can then download the no-watermark video, HD version, the audio track, or every
+          photo in the album — all client-side, with no account or sign-up required.
+        </p>
+      </div>
     </section>
   </main>
 </template>
@@ -55,41 +81,145 @@
 .about {
   max-width: 720px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-title {
+  font-family: 'Public Sans', 'Public Sans Fallback: BlinkMacSystemFont',
+    'Public Sans Fallback: Segoe UI', 'Public Sans Fallback: Helvetica Neue',
+    'Public Sans Fallback: Arial', 'Public Sans Fallback: Noto Sans', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+
+.about-description {
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--ui-fg-muted);
   line-height: 1.6;
 }
 
-.lead {
-  color: #555;
-  margin-bottom: 1.5rem;
+.about-section {
+  margin-bottom: 2.5rem;
 }
 
-.feature-list {
-  margin-bottom: 1.5rem;
+.section-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ui-fg-muted);
+  margin: 0 0 0.75rem;
 }
 
-.feature-list h2 {
-  font-size: 1.125rem;
-  margin-bottom: 0.5rem;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
 }
 
-.feature-list ul {
-  padding-left: 1.25rem;
-  color: #444;
+.card {
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  padding: 1.25rem;
+  box-shadow: var(--ui-shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.feature-list li {
-  margin-bottom: 0.35rem;
+.card:hover {
+  border-color: var(--ui-primary);
+  box-shadow: var(--ui-shadow-lg);
+}
+
+.card-wide {
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  padding: 1.5rem;
+  box-shadow: var(--ui-shadow-sm);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.card-text {
+  color: var(--ui-fg-muted);
+  font-size: 0.925rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.link-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  overflow: hidden;
+}
+
+.link-list li {
+  padding: 0.875rem 1.25rem;
+  color: var(--ui-fg-muted);
+  font-size: 0.925rem;
+  border-bottom: 1px solid var(--ui-border);
+}
+
+.link-list li:last-child {
+  border-bottom: none;
 }
 
 code {
-  background: #eee;
-  padding: 0.1rem 0.35rem;
-  border-radius: 4px;
+  background: var(--ui-bg-muted);
+  color: var(--ui-fg);
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
   font-size: 0.875em;
 }
 
-a {
-  color: #ff0050;
+.stack-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ui-fg);
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border);
+  border-radius: 9999px;
+}
+
+.tag a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tag a:hover {
+  color: var(--ui-primary);
+}
+
+.card-link {
+  color: var(--ui-primary);
+  text-decoration: none;
+}
+
+.card-link:hover {
+  text-decoration: underline;
 }
 </style>

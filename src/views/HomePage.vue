@@ -135,53 +135,55 @@ async function handleDownloadAllImages(images: string[]) {
 .home {
   max-width: 720px;
   margin: 0 auto;
-  padding: 2rem 1rem;
 }
 
 .hero {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .hero-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-  background: linear-gradient(135deg, #ff0050, #00f2ea);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'Public Sans', 'Public Sans Fallback: BlinkMacSystemFont',
+    'Public Sans Fallback: Segoe UI', 'Public Sans Fallback: Helvetica Neue',
+    'Public Sans Fallback: Arial', 'Public Sans Fallback: Noto Sans', sans-serif;
+  font-size: 2.75rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
 }
 
 .hero-subtitle {
-  color: #666;
+  color: var(--ui-fg-muted);
   font-size: 1rem;
   margin: 0;
 }
 
-.url-form {
-  margin-bottom: 2rem;
-}
-
 .howto {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding: 1rem 1.5rem;
-  margin-bottom: 2rem;
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .howto-title {
-  font-size: 1rem;
-  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ui-fg-muted);
+  margin: 0 0 0.75rem;
 }
 
 .howto-steps {
   margin: 0;
   padding-left: 1.25rem;
-  color: #555;
+  color: var(--ui-fg-muted);
   font-size: 0.925rem;
-  line-height: 1.7;
+  line-height: 1.8;
+}
+
+.url-form {
+  margin-bottom: 2rem;
 }
 
 .input-group {
@@ -192,15 +194,24 @@ async function handleDownloadAllImages(images: string[]) {
 .url-input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid var(--ui-border);
+  border-radius: 9999px;
+  background: var(--ui-bg-elevated);
+  color: var(--ui-fg);
   font-size: 1rem;
+  font-family: inherit;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .url-input:focus {
-  border-color: #ff0050;
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ui-primary) 20%, transparent);
+}
+
+.url-input::placeholder {
+  color: var(--ui-fg-muted);
+  opacity: 0.7;
 }
 
 .btn {
@@ -209,12 +220,13 @@ async function handleDownloadAllImages(images: string[]) {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 9999px;
+  font-size: 0.95rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s, transform 0.1s;
+  transition: background 0.2s, opacity 0.2s, transform 0.1s;
 }
 
 .btn:active {
@@ -222,9 +234,13 @@ async function handleDownloadAllImages(images: string[]) {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #ff0050, #00f2ea);
-  color: #fff;
+  background: var(--ui-primary);
+  color: var(--ui-primary-fg);
   white-space: nowrap;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--ui-primary-hover);
 }
 
 .btn-primary:disabled {
@@ -234,9 +250,9 @@ async function handleDownloadAllImages(images: string[]) {
 }
 
 .error-msg {
-  color: #e53935;
+  color: var(--ui-danger);
   font-size: 0.875rem;
-  margin: 0.5rem 0 0;
+  margin: 0.75rem 0.5rem 0;
 }
 
 .spinner {
@@ -270,18 +286,13 @@ async function handleDownloadAllImages(images: string[]) {
   }
 }
 
-.video-card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
+.video-card,
 .photo-card {
-  background: #fff;
-  border-radius: 12px;
+  background: var(--ui-bg-elevated);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--ui-shadow-lg);
 }
 
 .photo-grid {
@@ -296,7 +307,7 @@ async function handleDownloadAllImages(images: string[]) {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  background: #f0f0f0;
+  background: var(--ui-bg-muted);
 }
 
 .photo-img {
@@ -310,7 +321,7 @@ async function handleDownloadAllImages(images: string[]) {
   position: absolute;
   inset: auto 0 0 0;
   padding: 0.5rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
 }
 
 .btn-photo {
@@ -348,7 +359,7 @@ async function handleDownloadAllImages(images: string[]) {
 }
 
 .video-meta {
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .author-row {
@@ -371,7 +382,7 @@ async function handleDownloadAllImages(images: string[]) {
 
 .video-title {
   margin: 0 0 0.75rem;
-  color: #333;
+  color: var(--ui-fg);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -383,27 +394,53 @@ async function handleDownloadAllImages(images: string[]) {
   display: flex;
   gap: 1rem;
   font-size: 0.875rem;
-  color: #666;
+  color: var(--ui-fg-muted);
 }
 
 .download-actions {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0 1rem 1rem;
+  padding: 0 1.25rem 1.25rem;
 }
 
 .btn-download {
   justify-content: center;
-  background: #ff0050;
-  color: #fff;
+  background: var(--ui-primary);
+  color: var(--ui-primary-fg);
+}
+
+.btn-download:hover {
+  background: var(--ui-primary-hover);
 }
 
 .btn-hd {
-  background: #00c853;
+  background: var(--ui-fg);
+  color: var(--ui-bg);
+}
+
+.btn-hd:hover {
+  opacity: 0.85;
+  background: var(--ui-fg);
 }
 
 .btn-music {
-  background: #7c4dff;
+  background: var(--ui-bg-muted);
+  color: var(--ui-fg);
+  border: 1px solid var(--ui-border);
+}
+
+.btn-music:hover {
+  background: var(--ui-border);
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
 }
 </style>
