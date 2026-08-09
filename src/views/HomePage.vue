@@ -39,9 +39,9 @@ async function handleDownloadAllImages(images: string[]) {
     <section class="howto">
       <h2 class="howto-title">How to use</h2>
       <ol class="howto-steps">
-        <li>Open the TikTok app or website and copy the share link of the video or photo post.</li>
-        <li>Paste the link into the input field below.</li>
-        <li>Click <strong>Download</strong>, preview the post, then choose your quality or download all photos.</li>
+        <li>Mở ứng dụng hoặc trang web TikTok và sao chép link của bài đăng video hoặc ảnh.</li>
+        <li>Dán link vào thanh tìm kiếm bên dưới.</li>
+        <li>Bấm vào nút <strong>Download</strong>, xem trước bài đăng, sau đó tải xuống với chất lượng bạn muốn hoặc tải xuống tất cả các bức ảnh.</li>
       </ol>
     </section>
 

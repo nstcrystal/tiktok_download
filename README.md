@@ -19,8 +19,8 @@ Một ứng dụng web miễn phí tải xuống nội dung TikTok không có lo
 ## How to use
 
 1. Mở ứng dụng hoặc trang web TikTok và sao chép liên kết chia sẻ của bài đăng video hoặc ảnh.
-2. Dán liên kết vào thanh tìm kiếm trên trang Home.
-3. Nhấp vào **Download**, xem trước bài đăng, sau đó tải xuống với chất lượng bạn muốn hoặc tải xuống tất cả các bức ảnh.
+2. Dán link vào thanh tìm kiếm trên trang Home.
+3. Bấm vào nút **Download**, xem trước bài đăng, sau đó tải xuống với chất lượng bạn muốn hoặc tải xuống tất cả các bức ảnh.
 
 ## Tech stack
 
