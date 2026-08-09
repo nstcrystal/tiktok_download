@@ -1,42 +1,63 @@
-# tiktok_dowload
+# TikTok Downloader
 
-This template should help get you started developing with Vue 3 in Vite.
+Một ứng dụng web miễn phí tải xuống nội dung TikTok không có logo. Dán link TikTok và lưu video ở chế độ HD, trích xuất âm thanh hoặc tải xuống hình ảnh - tất cả từ trình duyệt.
 
-## Recommended IDE Setup
+## Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Video download** - Lưu video TikTok không có logo ở chất lượng tiêu chuẩn hoặc HD.
+- **Audio extraction** - Tải nhạc nền của video xuống dưới dạng tệp MP3.
+- **Photo carousels** - Tải xuống từng ảnh hoặc toàn bộ album từ bài đăng ảnh TikTok.
+- **Instant preview** - Xem số liệu thống kê về tác giả, chú thích và mức độ tương tác của bài đăng trước khi tải xuống.
 
-## Recommended Browser Setup
+## Supported URLs
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Video - `https://www.tiktok.com/@user/video/<id>`
+- Hình ảnh - `https://www.tiktok.com/@user/photo/<id>`
+- Link rút gọn - `https://vm.tiktok.com/...`, `https://vt.tiktok.com/...`
+- Link mobile - `https://m.tiktok.com/v/<id>`
 
-## Type Support for `.vue` Imports in TS
+## How to use
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+1. Mở ứng dụng hoặc trang web TikTok và sao chép liên kết chia sẻ của bài đăng video hoặc ảnh.
+2. Dán liên kết vào thanh tìm kiếm trên trang Home.
+3. Nhấp vào **Download**, xem trước bài đăng, sau đó tải xuống với chất lượng bạn muốn hoặc tải xuống tất cả các bức ảnh.
 
-## Customize configuration
+## Tech stack
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- [Vue 3](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- [Pinia](https://pinia.vuejs.org/) để quản lí state
+- [Vite](https://vite.dev/) để xây dựng web
+- [TikWM API](https://www.tikwm.com/) với tư cách là nhà cung cấp dữ liệu TikTok
 
-## Project Setup
+## Project setup
+
+Clone repo:
+
+```sh
+git clone https://github.com/nstcrystal/tiktok_download.git
+cd tiktok_download
+```
+
+Cài đặt các dependencies:
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Chạy môi trường phát triển:
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Kiểm tra, biên dịch để sản xuất
 
 ```sh
 npm run build
+```
+
+Xem trước bản dựng sản xuất
+
+```sh
+npm run preview
 ```

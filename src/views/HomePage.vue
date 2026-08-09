@@ -36,6 +36,15 @@ async function handleDownloadAllImages(images: string[]) {
       </p>
     </section>
 
+    <section class="howto">
+      <h2 class="howto-title">How to use</h2>
+      <ol class="howto-steps">
+        <li>Open the TikTok app or website and copy the share link of the video or photo post.</li>
+        <li>Paste the link into the input field below.</li>
+        <li>Click <strong>Download</strong>, preview the post, then choose your quality or download all photos.</li>
+      </ol>
+    </section>
+
     <section class="downloader">
       <form class="url-form" @submit.prevent="store.fetchVideo()">
         <div class="input-group">
@@ -152,6 +161,27 @@ async function handleDownloadAllImages(images: string[]) {
 
 .url-form {
   margin-bottom: 2rem;
+}
+
+.howto {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.howto-title {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.howto-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #555;
+  font-size: 0.925rem;
+  line-height: 1.7;
 }
 
 .input-group {
