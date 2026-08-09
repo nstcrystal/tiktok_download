@@ -4,10 +4,10 @@
 <template>
   <main class="about">
     <section class="about-hero">
-      <h1 class="about-title">About TikTok Downloader</h1>
+      <h1 class="about-title">About</h1>
       <p class="about-description">
-        A free web tool to save TikTok content without watermarks — videos in HD,
-        extracted audio, and full photo albums, all directly in your browser.
+        Một công cụ web miễn phí để lưu những nội dung TikTok không có logo - video ở chế độ HD,
+        trích xuất âm thanh và album ảnh đầy đủ, tất cả đều trực tiếp trong trình duyệt của bạn.
       </p>
     </section>
 
@@ -17,25 +17,25 @@
         <article class="card">
           <h3 class="card-title">Video downloads</h3>
           <p class="card-text">
-            Save TikTok videos in both standard and HD quality without watermark.
+            Lưu video TikTok ở cả chất lượng tiêu chuẩn và HD mà không có logo.
           </p>
         </article>
         <article class="card">
           <h3 class="card-title">Audio extraction</h3>
           <p class="card-text">
-            Download the soundtrack of any video as a ready-to-use MP3 file.
+            Tải xuống nhạc nền của bất kỳ video nào dưới dạng tệp MP3 sẵn sàng sử dụng.
           </p>
         </article>
         <article class="card">
           <h3 class="card-title">Photo carousels</h3>
           <p class="card-text">
-            Download individual photos or the entire album from a photo post.
+            Tải xuống từng ảnh hoặc toàn bộ album từ một bài đăng ảnh.
           </p>
         </article>
         <article class="card">
           <h3 class="card-title">Instant preview</h3>
           <p class="card-text">
-            See the post's author, caption, and engagement stats before downloading.
+            Xem số liệu thống kê về tác giả, chú thích và mức độ tương tác của bài đăng trước khi tải xuống.
           </p>
         </article>
       </div>
@@ -44,10 +44,10 @@
     <section class="about-section">
       <h2 class="section-label">Supported Links</h2>
       <ul class="link-list">
-        <li><code>tiktok.com/@user/video/…</code> — video posts</li>
-        <li><code>tiktok.com/@user/photo/…</code> — photo posts</li>
-        <li><code>vm.tiktok.com/…</code> and <code>vt.tiktok.com/…</code> — short share links</li>
-        <li><code>m.tiktok.com/v/…</code> — mobile links</li>
+        <li>Video - <code>tiktok.com/@user/video/…</code></li>
+        <li>Hình ảnh - <code>tiktok.com/@user/photo/…</code></li>
+        <li>Link rút gọn - <code>vm.tiktok.com/…</code> and <code>vt.tiktok.com/…</code></li>
+        <li>Link mobile - <code>m.tiktok.com/v/…</code></li>
       </ul>
     </section>
 
@@ -66,11 +66,11 @@
       <h2 class="section-label">How It Works</h2>
       <div class="card card-wide">
         <p class="card-text">
-          Paste a TikTok share link into the input on the home page. The app sends it to the
+          Dán link chia sẻ của bài đăng video hoặc ảnh trên TikTok vào thanh tìm kiếm trên Home. Web sẽ gửi nó đến
           <a class="card-link" href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a>,
-          which resolves the post and returns the media URLs together with the author, caption, and
-          stats. You can then download the no-watermark video, HD version, the audio track, or every
-          photo in the album — all client-side, with no account or sign-up required.
+          nơi sẽ giải quyết bài đăng và trả về các URL tương ứng cùng với tác giả, chú thích và
+          số liệu thống kê. Sau đó, bạn có thể tải xuống video không có logo, phiên bản HD, bản âm thanh hoặc mọi bức
+          ảnh trong album. Tất cả đều phía client, không cần tài khoản hoặc đăng ký.
         </p>
       </div>
     </section>
@@ -92,7 +92,7 @@
   font-family: 'Public Sans', 'Public Sans Fallback: BlinkMacSystemFont',
     'Public Sans Fallback: Segoe UI', 'Public Sans Fallback: Helvetica Neue',
     'Public Sans Fallback: Arial', 'Public Sans Fallback: Noto Sans', sans-serif;
-  font-size: 2.5rem;
+  font-size: 2.75rem;
   font-weight: 600;
   margin: 0 0 0.75rem;
   line-height: 1.15;
