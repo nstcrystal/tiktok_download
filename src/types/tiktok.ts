@@ -14,6 +14,8 @@ export interface TikTokVideoData {
   wmplay: string
   hdplay: string
   music: string
+  images: string[]
+  imagesCount: number
 }
 
 export interface TikTokApiResponse {
@@ -35,6 +37,8 @@ export interface TikTokApiResponse {
     share_count: number
     comment_count: number
     play_count: number
+    images?: string[]
+    images_count?: number
   }
 }
 

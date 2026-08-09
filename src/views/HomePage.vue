@@ -13,6 +13,18 @@ async function handleDownloadAudio(url: string) {
   const filename = `tiktok_${Date.now()}_audio.mp3`
   await triggerDownload(url, filename)
 }
+
+async function handleDownloadImage(url: string, index: number) {
+  const filename = `tiktok_${Date.now()}_photo_${index + 1}.jpg`
+  await triggerDownload(url, filename)
+}
+
+async function handleDownloadAllImages(images: string[]) {
+  for (const [index, image] of images.entries()) {
+    await handleDownloadImage(image, index)
+    await new Promise((resolve) => setTimeout(resolve, 400))
+  }
+}
 </script>
 
 <template>
@@ -38,6 +50,39 @@ async function handleDownloadAudio(url: string) {
       </form>
 
       <div v-if="store.video" class="result">
+        <template v-if="store.video.images.length > 0">
+          <div class="photo-card">
+            <div class="video-meta">
+              <div class="author-row">
+                <img :src="store.video.authorAvatar" :alt="store.video.author" class="author-avatar" loading="lazy" />
+                <span class="author-name">{{ store.video.author }}</span>
+              </div>
+              <p class="video-title">{{ store.video.title }}</p>
+              <div class="stats-row">
+                <span>🖼️ {{ store.video.imagesCount }} photos</span>
+                <span>❤️ {{ store.video.likes }}</span>
+                <span>💬 {{ store.video.comments }}</span>
+                <span>🔗 {{ store.video.shares }}</span>
+              </div>
+            </div>
+            <div class="photo-grid">
+              <figure v-for="(image, index) in store.video.images" :key="index" class="photo-item">
+                <img :src="image" :alt="`${store.video.title} ${index + 1}`" class="photo-img" loading="lazy" />
+                <figcaption>
+                  <button class="btn btn-download btn-photo" @click="handleDownloadImage(image, index)">
+                    Download
+                  </button>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="download-actions">
+              <button class="btn btn-download" @click="handleDownloadAllImages(store.video.images)">
+                Download All ({{ store.video.imagesCount }})
+              </button>
+            </div>
+          </div>
+        </template>
+        <template v-else>
         <div class="video-card">
           <div class="video-player">
             <img :src="store.video.cover" :alt="store.video.title" class="video-cover" loading="lazy" />
@@ -71,6 +116,7 @@ async function handleDownloadAudio(url: string) {
             </button>
           </div>
         </div>
+        </template>
       </div>
     </section>
   </main>
@@ -199,6 +245,48 @@ async function handleDownloadAudio(url: string) {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.photo-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  padding: 0 1rem 1rem;
+}
+
+.photo-item {
+  margin: 0;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.photo-img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}
+
+.photo-item figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 0.5rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+}
+
+.btn-photo {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.875rem;
 }
 
 .video-player {

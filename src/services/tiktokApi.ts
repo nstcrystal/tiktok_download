@@ -41,6 +41,8 @@ async function fetchTikTokData(url: string, signal?: AbortSignal): Promise<TikTo
       wmplay: d.wmplay,
       hdplay: d.hdplay || d.play,
       music: d.music,
+      images: d.images || [],
+      imagesCount: d.images_count || d.images?.length || 0,
     }
   } finally {
     clearTimeout(timeoutId)
@@ -51,6 +53,7 @@ function parseTikTokUrl(input: string): string | null {
   const trimmed = input.trim()
   const patterns = [
     /(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/video\/(\d+)/,
+    /(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/photo\/(\d+)/,
     /(?:https?:\/\/)?vm\.tiktok\.com\/([\w]+)/,
     /(?:https?:\/\/)?vt\.tiktok\.com\/([\w]+)/,
     /(?:https?:\/\/)?m\.tiktok\.com\/v\/(\d+)/,
