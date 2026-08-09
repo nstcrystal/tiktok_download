@@ -30,9 +30,9 @@ async function handleDownloadAllImages(images: string[]) {
 <template>
   <main class="home">
     <section class="hero">
-      <h1 class="hero-title">TikTok Video Downloader</h1>
+      <h1 class="hero-title">TikTok Downloader</h1>
       <p class="hero-subtitle">
-        Download TikTok videos without watermark in HD quality
+        Tải xuống video hoặc ảnh TikTok không có logo ở chất lượng HD
       </p>
     </section>
 
