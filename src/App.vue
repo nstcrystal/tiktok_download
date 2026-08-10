@@ -19,7 +19,7 @@ function toggleTheme() {
 <template>
   <div class="app-shell">
     <header class="app-header">
-      <RouterLink to="/" class="logo">TikTok Downloader</RouterLink>
+      <RouterLink to="/" class="logo">NSTCrystal</RouterLink>
       <nav class="nav">
         <RouterLink to="/" class="nav-link">Home</RouterLink>
         <RouterLink to="/about" class="nav-link">About</RouterLink>
