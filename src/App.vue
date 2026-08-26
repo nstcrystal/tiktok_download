@@ -19,7 +19,6 @@ function toggleTheme() {
 <template>
   <div class="app-shell">
     <header class="app-header">
-      <!-- <RouterLink to="/" class="logo">NSTCrystal</RouterLink> -->
       <a href="https://nstcrystal.is-a.dev" class="logo">NSTCrystal</a>
       <nav class="nav">
         <RouterLink to="/" class="nav-link">Home</RouterLink>
