@@ -381,9 +381,42 @@ async function fetchYouTubeDownloadUrl(
 }
 
 async function triggerDownload(url: string, filename: string) {
-  // For googlevideo URLs, blob fetch will fail CORS, so directly use anchor
   const isGoogleVideo = url.includes('googlevideo.com')
+
+  async function downloadViaFetch(fetchUrl: string): Promise<void> {
+    const response = await fetch(fetchUrl, {
+      mode: 'cors',
+      signal: AbortSignal.timeout(60000),
+    })
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    const blob = await response.blob()
+    const objectUrl = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = objectUrl
+    anchor.download = filename
+    document.body.appendChild(anchor)
+    anchor.click()
+    document.body.removeChild(anchor)
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1000)
+  }
+
+  // For googlevideo: try direct fetch, then via CORS proxy to force download instead of navigation
   if (isGoogleVideo) {
+    try {
+      await downloadViaFetch(url)
+      return
+    } catch (e) {
+      console.warn('[Download] Direct googlevideo fetch failed, trying proxy:', e)
+      for (const build of CORS_PROXIES) {
+        try {
+          await downloadViaFetch(build(url))
+          return
+        } catch {
+          continue
+        }
+      }
+    }
+    // If blob download failed, fallback to opening URL (browser will play). Hint download.
     const anchor = document.createElement('a')
     anchor.href = url
     anchor.download = filename
@@ -396,20 +429,7 @@ async function triggerDownload(url: string, filename: string) {
   }
 
   try {
-    const response = await fetch(url, {
-      mode: 'cors',
-      signal: AbortSignal.timeout(30000),
-    })
-    if (!response.ok) throw new Error('Download failed')
-    const blob = await response.blob()
-    const objectUrl = URL.createObjectURL(blob)
-    const anchor = document.createElement('a')
-    anchor.href = objectUrl
-    anchor.download = filename
-    document.body.appendChild(anchor)
-    anchor.click()
-    document.body.removeChild(anchor)
-    URL.revokeObjectURL(objectUrl)
+    await downloadViaFetch(url)
   } catch {
     const anchor = document.createElement('a')
     anchor.href = url
