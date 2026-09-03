@@ -1,10 +1,32 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useYouTubeStore } from '@/stores/youtube'
 import { fetchYouTubeDownloadUrl, triggerDownload } from '@/services/youtubeApi'
 
 const store = useYouTubeStore()
 const quality = ref('1080')
+const backendStatus = ref<'checking' | 'online' | 'offline'>('checking')
+const backendError = ref('')
+
+async function checkBackend() {
+  backendStatus.value = 'checking'
+  const API_BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || ''
+  const getUrl = (p: string) => (API_BASE ? `${API_BASE}${p}` : p)
+  try {
+    const controller = new AbortController()
+    const t = setTimeout(() => controller.abort(), 2500)
+    let r = await fetch(getUrl('/api/health'), { signal: controller.signal }).catch(() => null)
+    if (!r || !r.ok) r = await fetch('http://localhost:3001/api/health', { signal: controller.signal }).catch(() => null)
+    clearTimeout(t)
+    backendStatus.value = r && r.ok ? 'online' : 'offline'
+  } catch {
+    backendStatus.value = 'offline'
+  }
+}
+
+onMounted(() => {
+  checkBackend()
+})
 
 async function handleDownloadVideo() {
   if (!store.validatedUrl || !store.video) return
@@ -49,6 +71,11 @@ async function handleDownloadAudio() {
         <li>Dán link vào thanh tìm kiếm bên dưới.</li>
         <li>Bấm <strong>Download</strong> để xem trước, sau đó chọn tải Video hoặc Audio.</li>
       </ol>
+      <div class="backend-status" :class="backendStatus">
+        <span v-if="backendStatus === 'checking'">⏳ Đang kiểm tra backend...</span>
+        <span v-else-if="backendStatus === 'online'">✅ Backend đang chạy (yt-dlp sẵn sàng) — tải trực tiếp sẽ hoạt động</span>
+        <span v-else>❌ Backend chưa chạy — tải YouTube trực tiếp sẽ thất bại (SABR). Local: <code>npm run dev:server</code> + <code>npm run dev</code> (hoặc <code>npm run dev:all</code>). GitHub Pages: backend không chạy được trên static host — cần deploy riêng backend (Render/Railway/Fly) và set <code>VITE_API_URL=https://your-backend.onrender.com</code> rồi build lại. <button class="link-btn" @click="checkBackend">Kiểm tra lại</button></span>
+      </div>
     </section>
 
     <section class="downloader">
@@ -469,12 +496,56 @@ async function handleDownloadAudio() {
   border-radius: 8px;
 }
 
+.backend-status {
+  margin-top: 1rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  border: 1px solid var(--ui-border);
+}
+
+.backend-status.checking {
+  background: var(--ui-bg-muted);
+  color: var(--ui-fg-muted);
+}
+
+.backend-status.online {
+  background: color-mix(in srgb, #16a34a 10%, var(--ui-bg-muted));
+  border-color: color-mix(in srgb, #16a34a 20%, var(--ui-border));
+  color: #16a34a;
+}
+
+.backend-status.offline {
+  background: color-mix(in srgb, var(--ui-danger) 8%, var(--ui-bg-muted));
+  border-color: color-mix(in srgb, var(--ui-danger) 20%, var(--ui-border));
+  color: var(--ui-danger);
+}
+
+.backend-status code {
+  background: var(--ui-bg-elevated);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-size: 0.78rem;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
 .yt-error-title {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--ui-danger);
   margin: 0 0 0.5rem;
   line-height: 1.4;
+  white-space: pre-line;
 }
 
 .yt-error-hint {

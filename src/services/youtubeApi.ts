@@ -2,6 +2,10 @@ import type { CobaltResponse, YouTubeVideoData } from '@/types/youtube'
 
 const REQUEST_TIMEOUT_MS = 30000
 
+// Backend base URL: ưu tiên VITE_API_URL (deploy riêng), fallback /api (Vite proxy local), cuối cùng localhost:3001
+const API_BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || ''
+const getApiUrl = (path: string) => (API_BASE ? `${API_BASE}${path}` : path)
+
 // New Cobalt API (v10) - POST to / with new schema, but public instances now require auth
 // Keep as optional fallback, but primary is direct extraction via CORS proxy
 const COBALT_INSTANCES = ['https://api.cobalt.tools', 'https://co.wuk.sh']
@@ -45,6 +49,31 @@ function getYouTubeIdFromUrl(url: string): string {
 async function fetchYouTubeMeta(url: string, signal?: AbortSignal): Promise<YouTubeVideoData> {
   const id = extractYouTubeId(url)
   if (!id) throw new Error('Invalid YouTube URL')
+
+  // Try backend first (yt-dlp, more accurate, handles SABR) - hỗ trợ cả GitHub Pages qua VITE_API_URL
+  try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 4000)
+    const r = await fetch(getApiUrl(`/api/youtube/meta?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`), {
+      signal: signal || controller.signal,
+    })
+    clearTimeout(timeoutId)
+    if (r.ok) {
+      const j = await r.json()
+      if (j.title) {
+        return {
+          id: j.id || id,
+          url: j.url || `https://www.youtube.com/watch?v=${id}`,
+          title: j.title,
+          thumbnail: j.thumbnail || `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+          channel: j.channel || 'YouTube',
+          channelUrl: j.channelUrl || '',
+        }
+      }
+    }
+  } catch {
+    // backend not available, fall through to oEmbed
+  }
 
   // Primary: oEmbed (no key, CORS ok)
   try {
@@ -332,7 +361,37 @@ async function fetchYouTubeDownloadUrl(
   if (!id) throw new Error('Invalid YouTube URL')
   const normalizedUrl = `https://www.youtube.com/watch?v=${id}`
 
-  // Strategy 1: Direct extraction via CORS proxy (most reliable for browser, no server needed)
+  // Strategy 0: Backend via yt-dlp (handles SABR/DASH, most reliable when server running)
+  // Hỗ trợ cả local (Vite proxy) và GitHub Pages (VITE_API_URL trỏ tới backend deploy riêng)
+  const tryBackendHealth = async (): Promise<boolean> => {
+    const urls = [getApiUrl('/api/health'), 'http://localhost:3001/api/health']
+    // Loại trùng
+    const uniq = [...new Set(urls)]
+    for (const u of uniq) {
+      try {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 2500)
+        const r = await fetch(u, { signal: controller.signal })
+        clearTimeout(timeoutId)
+        if (r.ok) return true
+      } catch {
+        // try next
+      }
+    }
+    return false
+  }
+
+  const backendAvailable = await tryBackendHealth()
+  if (backendAvailable) {
+    const filename = `youtube_${id}_${mode === 'audio' ? 'audio' : quality + 'p'}.${mode === 'audio' ? 'mp3' : 'mp4'}`
+    const downloadUrl = getApiUrl(`/api/youtube/download?url=${encodeURIComponent(normalizedUrl)}&quality=${quality}&mode=${mode}`)
+    console.log('[YouTube] Using backend download proxy:', downloadUrl)
+    return { downloadUrl, filename }
+  } else {
+    console.warn('[YouTube] Backend not reachable (tried', getApiUrl('/api/health'), 'and localhost:3001), trying direct extraction')
+  }
+
+  // Strategy 1: Direct extraction via CORS proxy (works only if YouTube returns muxed formats, now mostly SABR)
   try {
     const sd = await getDirectStreams(id)
     const picked = pickBestStream(sd, mode, quality)
@@ -344,10 +403,33 @@ async function fetchYouTubeDownloadUrl(
       const filename = `youtube_${id}_${mode === 'audio' ? 'audio' : q}.${ext}`
       return { downloadUrl: cleanUrl, filename }
     }
-  } catch (e) {
-    // log and fallback to cobalt
-    console.warn('[YouTube] Direct extraction failed, trying Cobalt fallback:', e)
-  }
+    // If no url but SABR detected, throw specific error to skip to cobalt/external
+      if (sd.adaptiveFormats?.length && !sd.adaptiveFormats.some((f) => f.url)) {
+        throw new Error('YouTube đã chuyển sang SABR streaming (không còn direct URL trong HTML). Cần backend yt-dlp.')
+      }
+    } catch (e) {
+      // log and fallback
+      console.warn('[YouTube] Direct extraction failed:', e)
+      if (e instanceof Error && e.message.includes('SABR')) {
+        // Even though health check failed, try backend download as last resort
+        const filename = `youtube_${id}_${mode === 'audio' ? 'audio' : quality + 'p'}.${mode === 'audio' ? 'mp3' : 'mp4'}`
+        const downloadUrl = getApiUrl(`/api/youtube/download?url=${encodeURIComponent(normalizedUrl)}&quality=${quality}&mode=${mode}`)
+        console.log('[YouTube] SABR detected, trying backend download as last resort:', downloadUrl)
+        const healthUrls = [getApiUrl('/api/health'), 'http://localhost:3001/api/health']
+        for (const hu of [...new Set(healthUrls)]) {
+          try {
+            const controller = new AbortController()
+            const timeoutId = setTimeout(() => controller.abort(), 2000)
+            const health = await fetch(hu, { signal: controller.signal })
+            clearTimeout(timeoutId)
+            if (health && health.ok) return { downloadUrl, filename }
+          } catch {}
+        }
+        throw new Error(
+          'YouTube chặn tải trực tiếp (SABR). Backend chưa chạy hoặc không kết nối được.\n\nCách khắc phục LOCAL:\n1. npm run dev:server (3001) + npm run dev (5173) hoặc npm run dev:all\n\nCách khắc phục GITHUB PAGES (static không chạy được backend):\n- Deploy riêng backend lên Render/Railway/Fly/Vercel (cần Node + yt-dlp + ffmpeg), sau đó set biến môi trường VITE_API_URL=https://your-backend.onrender.com rồi build lại.\n- Hoặc dùng nút dự phòng SaveFrom/Y2Mate/10Downloader, hoặc yt-dlp trực tiếp.',
+        )
+      }
+    }
 
   // Strategy 2: Cobalt new API
   try {
