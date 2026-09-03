@@ -111,8 +111,20 @@ async function handleDownloadAudio() {
             </button>
           </div>
 
+          <div v-if="store.error" class="yt-error">
+            <p class="yt-error-title">⚠️ {{ store.error }}</p>
+            <p class="yt-error-hint">YouTube đang chặn tải trực tiếp từ nhiều dịch vụ (Cobalt / Piped). Thử các lựa chọn sau:</p>
+            <div class="yt-fallback-actions">
+              <a :href="`https://en.savefrom.net/#url=${encodeURIComponent(store.video.url)}`" target="_blank" rel="noopener" class="btn btn-fallback">SaveFrom.net</a>
+              <a :href="`https://y2mate.is/youtube/${store.video.id}`" target="_blank" rel="noopener" class="btn btn-fallback">Y2Mate</a>
+              <a :href="`https://10downloader.com/download?v=${encodeURIComponent(store.video.url)}`" target="_blank" rel="noopener" class="btn btn-fallback">10Downloader</a>
+              <a :href="store.video.url" target="_blank" rel="noopener" class="btn btn-fallback">Mở trên YouTube</a>
+            </div>
+            <p class="yt-note">Mẹo: Trên máy tính, dùng <code>yt-dlp {{ store.video.url }}</code> là ổn định nhất.</p>
+          </div>
+
           <p class="yt-note">
-            Sử dụng Cobalt API (api.cobalt.tools). Nếu tải thất bại, thử lại hoặc kiểm tra video có giới hạn bản quyền/age-restrict không.
+            Ưu tiên trích xuất trực tiếp qua YouTube watch page (qua proxy). Nếu thất bại, fallback sang Cobalt API. Nếu vẫn lỗi, dùng các nút dự phòng bên trên.
           </p>
         </div>
       </div>
@@ -449,12 +461,62 @@ async function handleDownloadAudio() {
   background: var(--ui-border);
 }
 
+.yt-error {
+  margin: 0 1.25rem 1rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--ui-danger) 8%, var(--ui-bg-muted));
+  border: 1px solid color-mix(in srgb, var(--ui-danger) 20%, var(--ui-border));
+  border-radius: 8px;
+}
+
+.yt-error-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ui-danger);
+  margin: 0 0 0.5rem;
+  line-height: 1.4;
+}
+
+.yt-error-hint {
+  font-size: 0.8rem;
+  color: var(--ui-fg-muted);
+  margin: 0 0 0.75rem;
+}
+
+.yt-fallback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.btn-fallback {
+  padding: 0.5rem 0.875rem;
+  font-size: 0.85rem;
+  background: var(--ui-bg-elevated);
+  color: var(--ui-fg);
+  border: 1px solid var(--ui-border);
+  text-decoration: none;
+}
+
+.btn-fallback:hover {
+  background: var(--ui-bg-muted);
+  color: var(--ui-primary);
+}
+
 .yt-note {
   padding: 0 1.25rem 1.25rem;
   font-size: 0.75rem;
   color: var(--ui-fg-muted);
   line-height: 1.5;
   margin: 0;
+}
+
+.yt-note code {
+  background: var(--ui-bg-muted);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 480px) {
