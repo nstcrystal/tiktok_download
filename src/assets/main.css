@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+/* Tailwind v4 + design system bridge: keep CSS variables from App.vue */
+@theme {
+  --color-primary: var(--ui-primary);
+}

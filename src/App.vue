@@ -21,7 +21,8 @@ function toggleTheme() {
     <header class="app-header">
       <a href="https://nstcrystal.is-a.dev" class="logo">NSTCrystal</a>
       <nav class="nav">
-        <RouterLink to="/" class="nav-link">Home</RouterLink>
+        <RouterLink to="/tiktok" class="nav-link">TikTok</RouterLink>
+        <RouterLink to="/youtube" class="nav-link">YouTube</RouterLink>
         <RouterLink to="/about" class="nav-link">About</RouterLink>
         <button class="theme-toggle" :aria-label="dark ? 'Switch to light mode' : 'Switch to dark mode'"
           @click="toggleTheme">

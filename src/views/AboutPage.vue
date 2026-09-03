@@ -6,8 +6,8 @@
     <section class="about-hero">
       <h1 class="about-title">About</h1>
       <p class="about-description">
-        Một công cụ web miễn phí để lưu những nội dung TikTok không có logo - video ở chế độ HD,
-        trích xuất âm thanh và album ảnh đầy đủ, tất cả đều trực tiếp trong trình duyệt của bạn.
+        Một công cụ web miễn phí để lưu nội dung TikTok & YouTube — TikTok không logo HD, trích xuất âm thanh,
+        album ảnh, và YouTube video/audio chất lượng cao, tất cả trực tiếp trong trình duyệt của bạn.
       </p>
     </section>
 
@@ -15,39 +15,49 @@
       <h2 class="section-label">Features</h2>
       <div class="card-grid">
         <article class="card">
-          <h3 class="card-title">Video downloads</h3>
+          <h3 class="card-title">TikTok Video</h3>
           <p class="card-text">
             Lưu video TikTok ở cả chất lượng tiêu chuẩn và HD mà không có logo.
           </p>
         </article>
         <article class="card">
-          <h3 class="card-title">Audio extraction</h3>
+          <h3 class="card-title">YouTube Video & Audio</h3>
           <p class="card-text">
-            Tải xuống nhạc nền của bất kỳ video nào dưới dạng tệp MP3 sẵn sàng sử dụng.
+            Tải video YouTube đến 4K hoặc tách riêng âm thanh MP3 với nhiều mức chất lượng.
           </p>
         </article>
         <article class="card">
           <h3 class="card-title">Photo carousels</h3>
           <p class="card-text">
-            Tải xuống từng ảnh hoặc toàn bộ album từ một bài đăng ảnh.
+            Tải xuống từng ảnh hoặc toàn bộ album từ một bài đăng ảnh TikTok.
           </p>
         </article>
         <article class="card">
           <h3 class="card-title">Instant preview</h3>
           <p class="card-text">
-            Xem số liệu thống kê về tác giả, chú thích và mức độ tương tác của bài đăng trước khi tải xuống.
+            Xem thông tin tác giả, tiêu đề, thumbnail và stats trước khi tải xuống.
           </p>
         </article>
       </div>
     </section>
 
     <section class="about-section">
-      <h2 class="section-label">Supported Links</h2>
+      <h2 class="section-label">Supported Links — TikTok</h2>
       <ul class="link-list">
         <li>Video - <code>tiktok.com/@user/video/…</code></li>
         <li>Hình ảnh - <code>tiktok.com/@user/photo/…</code></li>
         <li>Link rút gọn - <code>vm.tiktok.com/…</code> and <code>vt.tiktok.com/…</code></li>
         <li>Link mobile - <code>m.tiktok.com/v/…</code></li>
+      </ul>
+    </section>
+
+    <section class="about-section">
+      <h2 class="section-label">Supported Links — YouTube</h2>
+      <ul class="link-list">
+        <li>Video - <code>youtube.com/watch?v=…</code></li>
+        <li>Shorts - <code>youtube.com/shorts/…</code></li>
+        <li>Rút gọn - <code>youtu.be/…</code> and <code>m.youtube.com/…</code></li>
+        <li>ID thuần - <code>11 ký tự ID</code> (ví dụ <code>dQw4w9WgXcQ</code>)</li>
       </ul>
     </section>
 
@@ -58,7 +68,10 @@
         <span class="tag">TypeScript</span>
         <span class="tag">Pinia</span>
         <span class="tag">Vite</span>
+        <span class="tag">Tailwind CSS</span>
         <span class="tag"><a href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a></span>
+        <span class="tag"><a href="https://cobalt.tools/" target="_blank" rel="noopener">Cobalt API</a></span>
+        <span class="tag">YouTube oEmbed</span>
       </div>
     </section>
 
@@ -66,11 +79,16 @@
       <h2 class="section-label">How It Works</h2>
       <div class="card card-wide">
         <p class="card-text">
-          Dán link chia sẻ của bài đăng video hoặc ảnh trên TikTok vào thanh tìm kiếm trên Home. Web sẽ gửi nó đến
-          <a class="card-link" href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a>,
-          nơi sẽ giải quyết bài đăng và trả về các URL tương ứng cùng với tác giả, chú thích và
-          số liệu thống kê. Sau đó, bạn có thể tải xuống video không có logo, phiên bản HD, bản âm thanh hoặc mọi bức
-          ảnh trong album. Tất cả đều phía client, không cần tài khoản hoặc đăng ký.
+          <strong>TikTok:</strong> Dán link bài đăng vào <strong>TikTok</strong> tab. Web gửi tới
+          <a class="card-link" href="https://www.tikwm.com/" target="_blank" rel="noopener">TikWM API</a>
+          để giải quyết bài đăng và trả về URL video/ảnh, tác giả và stats. Bạn có thể tải video không logo, bản HD,
+          audio hoặc toàn bộ album ảnh.<br /><br />
+          <strong>YouTube:</strong> Dán link video/Shorts vào <strong>YouTube</strong> tab. Web dùng
+          <a class="card-link" href="https://www.youtube.com/oembed" target="_blank" rel="noopener">YouTube oEmbed</a>
+          để preview tiêu đề & thumbnail, sau đó gọi
+          <a class="card-link" href="https://cobalt.tools/" target="_blank" rel="noopener">Cobalt API</a>
+          (api.cobalt.tools / co.wuk.sh) để lấy link tải trực tiếp video hoặc audio theo chất lượng bạn chọn. Tất cả
+          phía client, không cần tài khoản.
         </p>
       </div>
     </section>

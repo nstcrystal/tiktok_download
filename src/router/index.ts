@@ -6,7 +6,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      redirect: '/tiktok',
+    },
+    {
+      path: '/tiktok',
+      name: 'tiktok',
       component: () => import('@/views/HomePage.vue'),
+    },
+    {
+      path: '/youtube',
+      name: 'youtube',
+      component: () => import('@/views/YoutubePage.vue'),
     },
     {
       path: '/about',
